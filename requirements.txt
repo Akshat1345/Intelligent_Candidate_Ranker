@@ -1,0 +1,8 @@
+# No ML libraries required — pure Python stdlib + minimal deps
+# Compatible with Python 3.9+
+
+# Runtime dependencies (all lightweight)
+pyyaml>=6.0
+
+# Dev / testing only
+pytest>=7.0

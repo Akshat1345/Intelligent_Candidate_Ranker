@@ -1,0 +1,228 @@
+# ============================================================
+# Redrob Hackathon — Scoring Configuration
+# All weights must sum to 1.0 within each section.
+# ============================================================
+
+# ---- Technical score weights (sum = 1.0) ----
+tech_weights:
+  core_skills_match: 0.35      # Exact + synonym match against JD must-haves
+  career_substance: 0.30       # Product company experience; shipped systems
+  experience_fit: 0.20         # YOE in 4-10yr band + trajectory
+  skill_trust: 0.10            # endorsements × duration × proficiency (anti-stuffing)
+  education_tier: 0.05         # tier_1..tier_4
+
+# ---- Behavioral multiplier range ----
+behavioral:
+  min_multiplier: 0.50         # Ghost candidate, no engagement
+  max_multiplier: 1.50         # Highly engaged, available, trusted
+  # Sub-component weights within behavioral (sum = 1.0)
+  availability_weight: 0.40    # open_to_work, recency, notice period
+  engagement_weight: 0.35      # response rate, interview completion, profile completeness
+  platform_trust_weight: 0.25  # verified signals, assessments, github
+
+# ---- Experience fit params ----
+experience:
+  ideal_min_yrs: 4.0
+  ideal_max_yrs: 10.0
+  sweet_spot_min: 5.0          # Extra bonus in this band
+  sweet_spot_max: 9.0
+
+# ---- Notice period scoring ----
+notice_period:
+  sub_30_days_score: 1.0
+  days_30_to_60_score: 0.8
+  days_60_to_90_score: 0.6
+  days_90_to_120_score: 0.4
+  over_120_days_score: 0.2
+
+# ---- Recency decay ----
+recency:
+  days_30_score: 1.0
+  days_90_score: 0.8
+  days_180_score: 0.5
+  days_365_score: 0.25
+  over_365_score: 0.05
+
+# ---- Education tier scores ----
+education:
+  tier_1: 1.00
+  tier_2: 0.85
+  tier_3: 0.70
+  tier_4: 0.55
+  unknown: 0.60
+
+# ---- Consulting-only penalty ----
+consulting_only_multiplier: 0.40
+consulting_firms:
+  - "tcs"
+  - "infosys"
+  - "wipro"
+  - "accenture"
+  - "cognizant"
+  - "capgemini"
+  - "hcl"
+  - "tech mahindra"
+  - "mphasis"
+  - "hexaware"
+
+# ---- Hard disqualifier titles (must have ZERO product tech roles too) ----
+non_tech_titles:
+  - "marketing manager"
+  - "accountant"
+  - "civil engineer"
+  - "mechanical engineer"
+  - "hr manager"
+  - "operations manager"
+  - "customer support"
+  - "content writer"
+  - "sales executive"
+  - "graphic designer"
+  - "project manager"
+  - "business analyst"
+  - "financial analyst"
+  - "supply chain"
+  - "procurement"
+
+# ---- JD required skills (must-haves from job_description.md) ----
+# Each entry: canonical name + synonyms for fuzzy matching
+jd_required_skills:
+  - name: "embeddings"
+    synonyms:
+      - "embedding"
+      - "sentence-transformers"
+      - "sentence transformers"
+      - "openai embeddings"
+      - "bge"
+      - "e5"
+      - "text embeddings"
+      - "dense retrieval"
+      - "semantic search"
+      - "vector embeddings"
+      - "text2vec"
+      - "ada embeddings"
+
+  - name: "vector_database"
+    synonyms:
+      - "vector database"
+      - "vector db"
+      - "pinecone"
+      - "weaviate"
+      - "qdrant"
+      - "milvus"
+      - "faiss"
+      - "opensearch"
+      - "elasticsearch"
+      - "chroma"
+      - "pgvector"
+      - "annoy"
+      - "hnsw"
+      - "approximate nearest neighbor"
+      - "ann"
+      - "vector search"
+      - "hybrid search"
+
+  - name: "retrieval_ranking"
+    synonyms:
+      - "retrieval"
+      - "ranking"
+      - "information retrieval"
+      - "reranking"
+      - "bm25"
+      - "hybrid retrieval"
+      - "rag"
+      - "retrieval augmented"
+      - "recommendation system"
+      - "recommendation systems"
+      - "search"
+      - "lucene"
+      - "solr"
+      - "cross-encoder"
+      - "bi-encoder"
+      - "ltr"
+      - "learning to rank"
+
+  - name: "python"
+    synonyms:
+      - "python"
+      - "pyspark"
+      - "pytorch"
+      - "tensorflow"
+      - "sklearn"
+      - "scikit-learn"
+      - "numpy"
+      - "pandas"
+
+  - name: "nlp_ml"
+    synonyms:
+      - "nlp"
+      - "natural language processing"
+      - "transformers"
+      - "hugging face"
+      - "huggingface"
+      - "bert"
+      - "gpt"
+      - "llm"
+      - "language model"
+      - "fine-tuning"
+      - "fine tuning"
+      - "lora"
+      - "qlora"
+      - "peft"
+      - "text classification"
+      - "named entity recognition"
+      - "machine learning"
+      - "deep learning"
+
+  - name: "evaluation_frameworks"
+    synonyms:
+      - "ndcg"
+      - "mrr"
+      - "map"
+      - "evaluation"
+      - "a/b testing"
+      - "a/b test"
+      - "offline evaluation"
+      - "online evaluation"
+      - "ranking metrics"
+      - "precision"
+      - "recall"
+      - "metrics"
+      - "experimentation"
+      - "mlflow"
+      - "weights & biases"
+      - "wandb"
+
+# ---- JD preferred skills (nice-to-haves) ----
+jd_preferred_skills:
+  - name: "fine_tuning"
+    synonyms:
+      - "fine-tuning"
+      - "lora"
+      - "qlora"
+      - "peft"
+      - "finetuning"
+      - "instruction tuning"
+
+  - name: "mlops"
+    synonyms:
+      - "mlops"
+      - "ml pipelines"
+      - "model serving"
+      - "kubeflow"
+      - "bentoml"
+      - "ray"
+      - "triton"
+      - "mlflow"
+      - "model deployment"
+
+  - name: "distributed_systems"
+    synonyms:
+      - "distributed systems"
+      - "kafka"
+      - "spark"
+      - "airflow"
+      - "flink"
+      - "data pipelines"
+      - "microservices"
+      - "kubernetes"
+      - "docker"
