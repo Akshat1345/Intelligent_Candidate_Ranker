@@ -31,6 +31,7 @@ This project treats those constraints as the core problem. It uses a determinist
 - `src/reasoning_generator.py` — two-sentence, recruiter-style reasoning for every shortlisted candidate.
 - `inspect_submission.py` — sanity-check tool that prints the top, middle, and bottom of the submission plus duplicate/uniqueness checks.
 - `config/scoring.yaml` — documented calibration values and thresholds used during development.
+- `submission_metadata.yaml` — submission metadata file for the portal; copy and complete the fields before final upload.
 - `requirements.txt` — minimal runtime dependencies.
 
 ## Core architecture
@@ -81,15 +82,15 @@ This keeps the final shortlist grounded in who a recruiter can actually hire.
 
 `src/technical_scorer.py` uses a weighted composite score with the following structure:
 
-| Component | Purpose |
-|---|---|
+| Component           | Purpose                                                                                                |
+| ------------------- | ------------------------------------------------------------------------------------------------------ |
 | `core_skills_match` | Match against JD must-haves: embeddings, vector DB, ranking / retrieval, Python, evaluation frameworks |
-| `ai_career_depth` | Proportion of career spent in core AI / ML titles based on title sequence |
-| `career_substance` | Product-company vs services exposure and production-relevant work |
-| `experience_fit` | Fit for the JD's preferred experience band |
-| `skill_trust` | Endorsements, duration, proficiency, and assessment consistency |
-| `trajectory` | Promotions and progression within AI roles |
-| `education_tier` | Light support signal only |
+| `ai_career_depth`   | Proportion of career spent in core AI / ML titles based on title sequence                              |
+| `career_substance`  | Product-company vs services exposure and production-relevant work                                      |
+| `experience_fit`    | Fit for the JD's preferred experience band                                                             |
+| `skill_trust`       | Endorsements, duration, proficiency, and assessment consistency                                        |
+| `trajectory`        | Promotions and progression within AI roles                                                             |
+| `education_tier`    | Light support signal only                                                                              |
 
 The scorer also applies a LangChain-wrapper penalty when a profile looks like thin wrapper work without real production depth.
 
@@ -147,6 +148,7 @@ ranker/
 ```
 
 The challenge bundle in this workspace is stored separately under `../given/` and contains the official dataset, validator, and sample files.
+The official validator is `../given/validate_submission.py`, not a repo-root file.
 
 ## Requirements
 
@@ -204,12 +206,12 @@ That gives a fast sanity check for score ordering and reasoning quality.
 
 The submission CSV contains exactly four columns:
 
-| Column | Description |
-|---|---|
-| `candidate_id` | Original candidate identifier from the challenge data |
-| `rank` | 1-based rank in descending score order |
-| `score` | Final score after technical score × behavioral multiplier |
-| `reasoning` | Two-sentence recruiter-style rationale |
+| Column         | Description                                               |
+| -------------- | --------------------------------------------------------- |
+| `candidate_id` | Original candidate identifier from the challenge data     |
+| `rank`         | 1-based rank in descending score order                    |
+| `score`        | Final score after technical score × behavioral multiplier |
+| `reasoning`    | Two-sentence recruiter-style rationale                    |
 
 The validator expects the rows to be sorted by descending score with no format violations.
 

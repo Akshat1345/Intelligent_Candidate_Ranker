@@ -1,0 +1,52 @@
+# Redrob Hackathon submission metadata
+# Fill in the team/contact fields before portal upload.
+
+team_name: "Akshat1345"
+
+primary_contact:
+  name: "Akshat Shaha"
+  email: "your-email@example.com"
+  phone: "+91-XXXXXXXXXX"
+
+team_members:
+  - name: "Akshat Shaha"
+    email: "your-email@example.com"
+    role: "ML Engineer"
+
+github_repo: "https://github.com/Akshat1345/Intelligent_Candidate_Ranker"
+sandbox_link: "https://your-sandbox-link.example.com"
+
+reproduce_command: "python rank.py --candidates ../given/candidates.jsonl --out ./submission.csv"
+
+compute:
+  platform: "Local macOS machine"
+  cpu_cores: 8
+  ram_gb: 16
+  python_version: "3.13"
+  os: "macOS"
+  uses_gpu_for_inference: false
+  has_network_during_ranking: false
+  pre_computation_required: false
+  pre_computation_time_minutes: 0
+
+ai_tools_used:
+  - "Claude"
+  - "GitHub Copilot"
+
+ai_usage_summary: |
+  Used Claude for architecture review, README drafting, and validation-oriented code analysis.
+  Used GitHub Copilot for implementation assistance and iterative code edits.
+  No candidate data was sent to hosted LLM APIs during ranking.
+
+methodology_summary: |
+  Deterministic four-layer candidate ranker for the Redrob Senior AI Engineer challenge.
+  Layer 1 detects honeypots with a stacked impossibility score calibrated at a 1.5-point threshold.
+  Layer 2 applies only the JD-explicit hard disqualifiers, including pure non-tech careers, consulting-only careers, and CV/speech/robotics profiles with no NLP/IR exposure.
+  Layer 3 computes technical fit using JD-required skills, title-based AI career depth, career substance, experience fit, skill trust, trajectory, and education. Layer 4 applies a behavioral multiplier from availability, engagement, platform trust, GitHub activity, and location. The implementation is CPU-only, deterministic, and designed to produce recruiter-style reasoning for manual review.
+
+declarations:
+  read_submission_spec: true
+  code_is_original_work: true
+  no_collusion: true
+  honeypot_check_done: true
+  reproduction_tested: true

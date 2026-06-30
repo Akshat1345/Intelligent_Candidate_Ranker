@@ -172,6 +172,25 @@ def _score_platform_trust(signals: Dict[str, Any], skills: list) -> float:
     return min(1.0, score)
 
 
+def _score_location(candidate: Dict[str, Any]) -> float:
+    """
+    Small geographic adjustment aligned with the JD's preferred locations.
+    Returns a value in [-0.08, 0.05].
+    """
+    profile = candidate.get("profile", {})
+    signals = candidate.get("redrob_signals", {})
+    location = (profile.get("location", "") or "").lower()
+    country = (profile.get("country", "") or "").lower()
+
+    if any(x in location for x in ["pune", "noida", "hyderabad", "mumbai", "delhi", "ncr", "gurgaon", "bangalore", "bengaluru"]):
+        return 0.05
+    if country == "india":
+        return 0.0
+    if signals.get("willing_to_relocate", False):
+        return -0.03
+    return -0.08
+
+
 def compute_behavioral_multiplier(
     candidate: Dict[str, Any],
 ) -> tuple[float, Dict[str, float]]:
@@ -185,24 +204,7 @@ def compute_behavioral_multiplier(
     availability = _score_availability(signals)
     engagement = _score_engagement(signals)
     platform_trust = _score_platform_trust(signals, skills)
-    # Location score to slightly bias India preferred cities
-    def _score_location(signals: Dict[str, Any]) -> float:
-        loc = signals.get("location", "") or ""
-        # Use profile country and willing_to_relocate if available
-        country = signals.get("country", "")
-        # Best: India preferred cities
-        profile_loc = loc.lower() if isinstance(loc, str) else ""
-        if any(x in profile_loc for x in ["pune", "noida", "hyderabad", "mumbai", "delhi", "ncr", "gurgaon", "bangalore", "bengaluru"]):
-            return 0.05
-        # India but other city -> neutral
-        if country and country.lower() == "india":
-            return 0.0
-        # Outside India
-        if signals.get("willing_to_relocate", False):
-            return -0.03
-        return -0.08
-
-    location_score = _score_location({**signals, **{"location": candidate.get("profile", {}).get("location", ""), "country": candidate.get("profile", {}).get("country", "")}})
+    location_score = _score_location(candidate)
 
     # Weighted composite behavioral score [0, 1]
     behavioral_score = (
